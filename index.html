@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financial Calculator</title>
+</head>
+<body>
+  <h1>Financial Calculator</h1>
+  <div id="interest-rate">
+    <h2>Simple Interest</h2>
+    <label for="principal-interest">Principal:</label>
+    <input type="number" id="principal-interest" required>
+    <label for="time-interest">Time (years):</label>
+    <input type="number" id="time-interest" required>
+    <label for="rate-interest">Interest Rate (%):</label>
+    <input type="number" id="rate-interest" required>
+    <button onclick="calculateInterest()">Calculate Interest</button>
+    <p id="interest-result"></p>
+  </div>
+
+  <div id="loan-payment">
+    <h2>Loan Payment</h2>
+    <label for="principal-loan">Principal:</label>
+    <input type="number" id="principal-loan" required>
+    <label for="rate-loan">Interest Rate (%):</label>
+    <input type="number" id="rate-loan" required>
+    <label for="years-loan">Loan Term (years):</label>
+    <input type="number" id="years-loan" required>
+    <button onclick="calculateMonthlyPayment()">Calculate Monthly Payment</button>
+    <p id="payment-result"></p>
+  </div>
+
+  <div id="investment-return">
+    <h2>Investment Return</h2>
+    <label for="principal-investment">Principal:</label>
+    <input type="number" id="principal-investment" required>
+    <label for="rate-investment">Interest Rate (%):</label>
+    <input type="number" id="rate-investment" required>
+    <label for="years-investment">Years:</label>
+    <input type="number" id="years-investment" required>
+    <label for="compounding-investment">Compounding (per year):</label>
+    <input type="number" id="compounding-investment" required>
+    <button onclick="calculateFutureValue()">Calculate Future Value</button>
+    <p id="investment-result"></p>
+  </div>
+
+  <script src="./interest-rate.js"></script>
+  <script src="./loan-payment.js"></script>
+  <script src="./investment-return.js"></script>
+
+  <script>
+    function calculateInterest() {
+      const principal = document.getElementById("principal-interest").value;
+      const time = document.getElementById("time-interest").value;
+      const rate = document.getElementById("rate-interest").value;
+
+      if (!isValidInput(principal) || !isValidInput(time) || !isValidInput(rate)) {
+        alert("Please fill out all fields with valid numbers.");
+        return;
+      }
+
+      const interest = calculateInterestRate(parseFloat(principal), parseFloat(time), parseFloat(rate) / 100);
+      document.getElementById("interest-result").textContent = `Interest: ${interest}`;
+    }
+
+    function calculateMonthlyPayment() {
+      const principal = document.getElementById("principal-loan").value;
+      const rate = document.getElementById("rate-loan").value;
+      const years = document.getElementById("years-loan").value;
+
+      if (!isValidInput(principal) || !isValidInput(rate) || !isValidInput(years)) {
+        alert("Please fill out all fields with valid numbers.");
+        return;
+      }
+
+      const payment = calculateLoanPayment(parseFloat(principal), parseFloat(rate) / 100, parseFloat(years));
+      document.getElementById("payment-result").textContent = `Monthly Payment: ${payment.toFixed(2)}`;
+    }
+
+    function calculateFutureValue() {
+      const principal = document.getElementById("principal-investment").value;
+      const rate = document.getElementById("rate-investment").value;
+      const years = document.getElementById("years-investment").value;
+      const compounding = document.getElementById("compounding-investment").value;
+
+      if (!isValidInput(principal) || !isValidInput(rate) || !isValidInput(years) || !isValidInput(compounding)) {
+        alert("Please fill out all fields with valid numbers.");
+        return;
+      }
+
+      const investment = calculateInvestmentReturn(parseFloat(principal), parseFloat(rate) / 100, parseFloat(years), parseFloat(compounding));
+      document.getElementById("investment-result").textContent = `Future Value: ${investment.toFixed(2)}`;
+    }
+
+    function isValidInput(input) {
+      return !isNaN(input) && input.trim() !== "";
+    }
+  </script>
+</body>
+</html>
